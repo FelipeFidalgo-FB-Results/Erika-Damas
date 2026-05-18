@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+          {
+                  "source": "/",
+                  "destination": "/Quiz Dra Erika - v3 fotos standalone (1).html"
+          }
+    ]
+}
