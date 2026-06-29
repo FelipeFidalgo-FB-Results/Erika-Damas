@@ -1,5 +1,5 @@
 const DEFAULT_APPS_SCRIPT_ENDPOINT =
-  'https://script.google.com/macros/s/AKfycbxgJiJlaiuIyjqQG_VWa6cl96O_BaHz4wFQQFO77VvO4w8KLckLAQG8BRzX3pIP8zgN/exec';
+  'https://script.google.com/macros/s/AKfycby4Hy5U63csfB0bv1u1GsDWk4yOLYAhJg1UxwMmm5GD6PI2qn5sdC8nMatHcYmiblpQ/exec';
 
 function parseBody(body) {
   if (typeof body === 'string') return JSON.parse(body);
