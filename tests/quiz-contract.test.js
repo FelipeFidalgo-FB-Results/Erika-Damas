@@ -6,6 +6,7 @@ import {
   buildJourneyParams,
   buildLeadPayload,
   computeProfile,
+  formatLeadCreatedAt,
   validateBrazilianMobilePhone,
 } from '../src/quiz-core.js';
 import { PIXEL_EVENTS } from '../src/tracking.js';
@@ -41,6 +42,13 @@ test('normalizes valid Brazilian mobile numbers', () => {
   assert.equal(validateBrazilianMobilePhone('1234').ok, false);
 });
 
+test('formats lead creation time in Sao Paulo for the CRM sheet', () => {
+  assert.equal(
+    formatLeadCreatedAt(new Date('2026-06-30T22:53:00.000Z')),
+    '30/06/2026 às 19h53',
+  );
+});
+
 test('builds CRM payload with profile name rather than profile number', () => {
   const payload = buildLeadPayload({
     form: { nome: '  Maria  ', email: 'MARIA@EXAMPLE.COM ', telefone: '(12) 99999-9999' },
@@ -61,6 +69,7 @@ test('builds CRM payload with profile name rather than profile number', () => {
   assert.equal(payload.telefone, '12999999999');
   assert.equal(payload.perfil, 'Desequilíbrio Hormonal');
   assert.equal(payload.resultado_id, '3');
+  assert.equal(payload.created_at, '30/06/2026 às 09h00');
 });
 
 test('keeps journey tracking privacy-safe', () => {

@@ -2,6 +2,24 @@ import { PROFILE_NAMES, PROFILES } from './quiz-data.js';
 
 const WHATSAPP_NUMBER = '5512992531212';
 const SUBMISSION_SOURCE = 'vercel-quiz-leads-v1';
+const CRM_TIMEZONE = 'America/Sao_Paulo';
+
+export function formatLeadCreatedAt(value = new Date()) {
+  const date = value instanceof Date ? value : new Date(value);
+  const safeDate = Number.isNaN(date.getTime()) ? new Date() : date;
+  const parts = new Intl.DateTimeFormat('pt-BR', {
+    timeZone: CRM_TIMEZONE,
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(safeDate);
+
+  const pick = (type) => parts.find((part) => part.type === type)?.value || '';
+  return `${pick('day')}/${pick('month')}/${pick('year')} às ${pick('hour')}h${pick('minute')}`;
+}
 
 export function normalizePhone(value) {
   return String(value || '').replace(/\D/g, '');
@@ -57,13 +75,15 @@ export function buildJourneyParams(contentName) {
 }
 
 export function buildLeadPayload({ form, answers, profileNumber, leadId, context = {} }) {
+  const createdAtSource = context.createdAt || new Date();
+  const hasContextValue = (key) => Object.prototype.hasOwnProperty.call(context, key);
   const browserContext = {
-    createdAt: new Date().toISOString(),
-    pageUrl: globalThis.location?.href || '',
-    referrer: globalThis.document?.referrer || '',
-    userAgent: globalThis.navigator?.userAgent || '',
-    utm: getUtmParams(),
     ...context,
+    createdAt: formatLeadCreatedAt(createdAtSource),
+    pageUrl: hasContextValue('pageUrl') ? context.pageUrl : globalThis.location?.href || '',
+    referrer: hasContextValue('referrer') ? context.referrer : globalThis.document?.referrer || '',
+    userAgent: hasContextValue('userAgent') ? context.userAgent : globalThis.navigator?.userAgent || '',
+    utm: hasContextValue('utm') ? context.utm : getUtmParams(),
   };
 
   return {
