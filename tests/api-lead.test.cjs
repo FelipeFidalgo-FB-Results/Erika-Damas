@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const handlerPath = path.join(__dirname, 'lead.js');
+const handlerPath = path.join(__dirname, '..', 'api', 'lead.js');
 assert.ok(fs.existsSync(handlerPath), 'api/lead.js should exist');
 
 const handler = require(handlerPath);
