@@ -1,0 +1,21 @@
+{
+  "name": "erika-damas-quiz",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test api/lead.test.js tests/quiz-contract.test.js tests/assets.test.js",
+    "test:build": "node --test tests/production-build.test.js"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "vite": "^8.1.2"
+  }
+}
