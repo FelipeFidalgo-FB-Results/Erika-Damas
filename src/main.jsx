@@ -132,11 +132,11 @@ async function submitLead(payload) {
 /* ─────────────────────────────────────────────
    SCENE — bg image + dark overlay wrapper
    ───────────────────────────────────────────── */
-function Scene({ imageKey, heavy, children, direction }) {
+function Scene({ imageKey, heavy, children, direction, animate = true }) {
   const img = QUIZ_CONFIG.images[imageKey];
-  const cls = direction === 'back' ? 'scene-enter-back' : 'scene-enter';
+  const cls = animate ? (direction === 'back' ? 'scene-enter-back' : 'scene-enter') : '';
   return (
-    <div className={"scene " + cls} key={imageKey}>
+    <div className={"scene" + (cls ? " " + cls : "")} key={imageKey}>
       <div
         className={"scene-bg" + (heavy ? ' heavy' : '')}
         style={{ backgroundImage: `url("${img.src}")` }}
@@ -154,7 +154,7 @@ function Scene({ imageKey, heavy, children, direction }) {
    ───────────────────────────────────────────── */
 function Splash({ onStart }) {
   return (
-    <Scene imageKey="intro" heavy>
+    <Scene imageKey="intro" heavy animate={false}>
       <div className="splash-top topbar">
         <div className="brand-mark">Dra. Erika Damas</div>
         <div className="splash-creds">CRM/RJ 82965-0<br/>CRM/SP 146601</div>
